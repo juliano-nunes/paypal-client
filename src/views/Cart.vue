@@ -39,32 +39,64 @@ export default {
     PersonalInformationForm,
     ShippingAddressForm
   },
+  mounted() {
+    this.getProducts();
+  },
   data() {
     return {
-      products: [
-        {
-          identifier: "Teste",
-          productName: "Samsung 128GB 100MB/s (U3) MicroSD EVO Select Memory Card with Adapter (MB-ME128GA/AM)",
-          unitPrice: 1.22,
-          productUrl: "https://www.amazon.com/gp/product/B06XWZWYVP/ref=ox_sc_act_image_1?smid=ATVPDKIKX0DER&psc=1",
-          productImg: "https://images-na.ssl-images-amazon.com/images/I/817wkPGulTL._AC_AA100_.jpg",
-          quantity: 1
-        }
-      ],
+      products: [],
       shippingAdress: {
-        country: "Brazil",
-        city: "São Paulo",
-        state: "São Paulo",
-        zipcode: "01332",
-        address1: "Rua Itapeva, 220",
-        address2: "Ap 16"
+        country: "US",
+        city: "Redwood City",
+        state: "CA",
+        zipcode: "94065",
+        address1: "4th Floor, One Lagoon Drive",
+        address2: "Unit #34"
       },
       personalInfo: {
-        firstName: "Juliano",
-        lastName: "Nunes",
-        email: "julianomarquesnunes@gmail.com",
-        phone: "+5511992002315"
+        firstName: "Brian",
+        lastName: "Robinson",
+        email: "julianomarquesnunes+1@gmail.com",
+        phone: "011862212345678"
       }
+    }
+  },
+  watch: {
+    products() {
+      if (this.products.length === 0) {
+        localStorage.setItem('transactions', JSON.stringify(new Object()));
+        return;
+      }
+
+      localStorage.setItem('transactions', JSON.stringify({
+        "itemsList": {
+          "items": this.products.map(product => {
+            return {
+              "name": product.name,
+              "quantity": product.quantity,
+              "sku": product.sku
+            }
+          }),
+          "shippingAddress": {
+            "recipient_name": `${this.personalInfo.lastName}, ${this.personalInfo.firstName}`,
+            "line1": this.shippingAdress.address1,
+            "line2": this.shippingAdress.address2,
+            "city": this.shippingAdress.city,
+            "country_code": this.shippingAdress.country,
+            "postal_code": this.shippingAdress.zipcode,
+            "phone": this.personalInfo.phone,
+            "state": this.shippingAdress.state
+          }
+        }
+      }));
+    }
+  },
+  methods: {
+    getProducts() {
+      this.$repository.getProductsList().then(function(res) {
+        this.products = res.data;
+        this.products.map(product => product.quantity = 1);
+      }.bind(this));
     }
   }
 }

@@ -2,10 +2,10 @@
     <tr>
         <td class="product-column">
             <div class="product-info">
-                <img :src="product.productImg" :alt="product.productName" />
+                <img :src="product.productImg" :alt="product.name" />
                 <div class="product-details">
-                    <span><a :href="product.productUrl" target="_blank" class="truncate">{{product.productName}}</a></span>
-                    <span><a href="#" @click="$emit('quantity-have-changed', 0, product.identifier)">Delete</a></span>
+                    <span><a :href="product.productUrl" target="_blank" class="truncate">{{product.name}}</a></span>
+                    <span><a href="#" @click="$emit('quantity-have-changed', 0, product.sku)">Delete</a></span>
                 </div>
             </div>
         </td>

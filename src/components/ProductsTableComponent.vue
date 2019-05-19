@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody>
-            <ProductRowComponent :key="product.identifier" :product="product" v-for="product in products"
+            <ProductRowComponent :key="product.sku" :product="product" v-for="product in products"
                 v-on:quantity-have-changed="updatedProducts" />
         </tbody>
         <tfoot>
@@ -36,21 +36,21 @@ export default {
     },
     computed: {
         subtotal() {
-            return this.products.reduce((total,product) => total + product.unitPrice * product.quantity, 0);
+            return this.products.reduce((total,product) => total + product.price * product.quantity, 0);
         }
     },
     methods: {
         updatedProducts(itemQuantity, productId) {
             if (itemQuantity === 0) {
                 this.products = this.products.filter(
-                    product => product.identifier != productId
+                    product => product.sku != productId
                 );
                 return;
             }
             
             this.products.map(
                 (product) => {
-                    if (product.identifier === productId) {
+                    if (product.sku === productId) {
                         product.quantity = itemQuantity;
                     }
                 }
