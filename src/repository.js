@@ -1,15 +1,15 @@
 import axios from "axios";
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://groovy-reserve-241123.appspot.com/api/v1",
   headers: { "content-type": "application/json" }
 });
 
 export default class Repository {
   createPayment(data) {
-    let transactions = JSON.parse(localStorage.getItem("transactions"));
+    const transactions = JSON.parse(localStorage.getItem("transactions"));
 
     return axiosInstance
-      .post("/my-api/create-payment/", transactions)
+      .post("/create-payment/", transactions)
       .then(function(res) {
         return res.data.id;
       });
@@ -17,7 +17,7 @@ export default class Repository {
 
   executePayment(data) {
     return axiosInstance
-      .post("/my-api/execute-payment/", {
+      .post("/execute-payment/", {
         paymentID: data.paymentID,
         payerID: data.payerID
       })
@@ -27,6 +27,6 @@ export default class Repository {
   }
 
   getProductsList() {
-    return axiosInstance.get('/my-api/products-list/');
+    return axiosInstance.get('/products-list/');
   }
 }

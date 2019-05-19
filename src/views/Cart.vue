@@ -69,24 +69,28 @@ export default {
       }
 
       localStorage.setItem('transactions', JSON.stringify({
-        "itemsList": {
-          "items": this.products.map(product => {
+        itemsList: {
+          items: this.products.map(product => {
             return {
-              "name": product.name,
-              "quantity": product.quantity,
-              "sku": product.sku
+              quantity: product.quantity,
+              sku: product.sku
             }
           }),
-          "shippingAddress": {
-            "recipient_name": `${this.personalInfo.lastName}, ${this.personalInfo.firstName}`,
-            "line1": this.shippingAdress.address1,
-            "line2": this.shippingAdress.address2,
-            "city": this.shippingAdress.city,
-            "country_code": this.shippingAdress.country,
-            "postal_code": this.shippingAdress.zipcode,
-            "phone": this.personalInfo.phone,
-            "state": this.shippingAdress.state
+          shippingAddress: {
+            recipient_name: `${this.personalInfo.lastName}, ${this.personalInfo.firstName}`,
+            line1: this.shippingAdress.address1,
+            line2: this.shippingAdress.address2,
+            city: this.shippingAdress.city,
+            country_code: this.shippingAdress.country,
+            postal_code: this.shippingAdress.zipcode,
+            phone: this.personalInfo.phone,
+            state: this.shippingAdress.state
           }
+        },
+        redirectUrls: 
+        {
+          return_url: `https://${window.location.hostname}/#/approved`,
+          cancel_url: `https://${window.location.hostname}/#/refused`
         }
       }));
     }
