@@ -66,6 +66,7 @@ export default {
       this.$repository.getProductsList().then(function(res) {
         this.products = res.data;
         this.products.map(product => product.quantity = 1);
+        this.updateSessionStorage(this.products);
       }.bind(this));
     },
     updateSessionStorage(products) {
