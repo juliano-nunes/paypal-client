@@ -30,6 +30,6 @@ export default {
         personalInfo: {
             type: Object
         }
-    }
+    },
 }
 </script>

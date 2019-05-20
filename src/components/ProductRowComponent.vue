@@ -10,7 +10,7 @@
             </div>
         </td>
         <td class="price-column">U$ {{product.unitPrice}}</td>
-        <td class="quantity-column"><input type="number" v-model="quantity" min=1 @input="$emit('quantity-have-changed', quantity, product.identifier)" /></td>
+        <td class="quantity-column"><input type="number" v-model="quantity" min=1 @input="$emit('quantity-have-changed', quantity, product.sku)" /></td>
     </tr>
 </template>
 <script>

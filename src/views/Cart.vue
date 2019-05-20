@@ -3,7 +3,7 @@
       <h2>Shopping Cart</h2>
       <div class="row">
       <section class="cart col s12 l12">
-        <ProductsTableComponent :products="products" />
+        <ProductsTableComponent :products="products" v-if="products.length > 0" v-on:products-changed="updateSessionStorage" />
       </section>
       </div>
       <div class="row">
@@ -61,16 +61,22 @@ export default {
       }
     }
   },
-  watch: {
-    products() {
-      if (this.products.length === 0) {
+  methods: {
+    getProducts() {
+      this.$repository.getProductsList().then(function(res) {
+        this.products = res.data;
+        this.products.map(product => product.quantity = 1);
+      }.bind(this));
+    },
+    updateSessionStorage(products) {
+      if (products.length === 0) {
         localStorage.setItem('transactions', JSON.stringify(new Object()));
         return;
       }
 
       localStorage.setItem('transactions', JSON.stringify({
         itemsList: {
-          items: this.products.map(product => {
+          items: products.map(product => {
             return {
               quantity: product.quantity,
               sku: product.sku
@@ -93,14 +99,6 @@ export default {
           cancel_url: `https://${window.location.hostname}/#/refused`
         }
       }));
-    }
-  },
-  methods: {
-    getProducts() {
-      this.$repository.getProductsList().then(function(res) {
-        this.products = res.data;
-        this.products.map(product => product.quantity = 1);
-      }.bind(this));
     }
   }
 }

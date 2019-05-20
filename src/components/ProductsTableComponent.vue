@@ -34,9 +34,9 @@ export default {
             required: true
         }
     },
-    computed: {
-        subtotal() {
-            return this.products.reduce((total,product) => total + product.price * product.quantity, 0);
+    data() {
+        return {
+            subtotal: this.getSubtotal()
         }
     },
     methods: {
@@ -45,6 +45,7 @@ export default {
                 this.products = this.products.filter(
                     product => product.sku != productId
                 );
+                this.$emit('products-changed', this.products);
                 return;
             }
             
@@ -55,7 +56,12 @@ export default {
                     }
                 }
             );
-        }
+            this.$emit('products-changed', this.products);
+            this.subtotal = this.getSubtotal();
+        },
+        getSubtotal() {
+            return this.products.reduce((total,product) => (total + product.price * product.quantity).toFixed(2), 0);
+        },
     }
 }
 </script>
